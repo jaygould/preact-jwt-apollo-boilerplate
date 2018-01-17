@@ -10,6 +10,7 @@ const lusca = require('lusca');
 const expressStatusMonitor = require('express-status-monitor');
 const bodyParser = require('body-parser');
 const mongoUtil = require('./config/mongo');
+const graphql = require('./config/graphql');
 
 //Load environment variables
 require('dotenv').config();
@@ -24,6 +25,9 @@ const app = express();
 mongoUtil.connectToServer(err => {
 	if (err) return console.log(err);
 });
+
+//GraphQL setup
+graphql.connect(app);
 
 //Express configuration
 app.set('port', process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 1138);

@@ -1,10 +1,17 @@
 import { h, Component } from 'preact';
+import { route } from 'preact-router';
 import style from './style';
+import { login } from '../../api/auth.api';
 
 export default class Home extends Component {
 	constructor(props) {
 		super(props);
-		this.state = { email: '', password: '' };
+		this.state = {
+			email: null,
+			password: null,
+			authToken: null,
+			refreshToken: null
+		};
 
 		this.handleChange = this.handleChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
@@ -19,8 +26,16 @@ export default class Home extends Component {
 	}
 
 	handleSubmit(e) {
-		console.log('A name was submitted: ' + this.state);
-		event.preventDefault();
+		login(this.state)
+			.then(response => {
+				localStorage.setItem('authToken', response.authToken);
+				localStorage.setItem('refreshToken', response.refreshToken);
+				route('/profile');
+			})
+			.catch(err => {
+				console.log(err);
+			});
+		e.preventDefault();
 	}
 	render() {
 		return (
@@ -48,6 +63,24 @@ export default class Home extends Component {
 					</label>
 					<input type="submit" value="Submit" />
 				</form>
+				<div class={style.tokens}>
+					{this.state.authToken && (
+						<div>
+							<p>
+								Auth token: <br />
+								{this.state.authToken}
+							</p>
+						</div>
+					)}
+					{this.state.refreshToken && (
+						<div>
+							<p>
+								Refresh token: <br />
+								{this.state.refreshToken}
+							</p>
+						</div>
+					)}
+				</div>
 			</div>
 		);
 	}

@@ -30,6 +30,7 @@ router.post(
 			})
 			.then(newUser => {
 				req.user = newUser;
+				req.activity = 'signup';
 				next();
 			})
 			.catch(err => {
@@ -38,6 +39,7 @@ router.post(
 	},
 	auth.createToken,
 	auth.createRefreshToken,
+	auth.logUserActivity,
 	(req, res) => {
 		res.status(201).send({
 			success: true,
@@ -68,6 +70,7 @@ router.post(
 					);
 				}
 				req.user = user;
+				req.activity = 'login';
 				next();
 			})
 			.catch(err => {
@@ -76,6 +79,7 @@ router.post(
 	},
 	auth.createToken,
 	auth.createRefreshToken,
+	auth.logUserActivity,
 	(req, res) => {
 		res.status(201).send({
 			success: true,

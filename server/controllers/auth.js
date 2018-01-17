@@ -1,4 +1,5 @@
 const Users = require('../models/Users');
+const LoginActivity = require('../models/LoginActivity');
 const _ = require('lodash');
 const jwt = require('jsonwebtoken');
 const config = require('../config/auth.js');
@@ -45,9 +46,17 @@ let validateRefreshToken = (req, res, next) => {
 		return errors.errorHandler(res, 'There is no refresh token to check.');
 	}
 };
+let logUserActivity = (req, res, next) => {
+	LoginActivity.create({ userID: req.user.id, activityType: req.activity })
+		.then(next())
+		.catch(err => {
+			return errors.errorHandler(res, err);
+		});
+};
 
 module.exports = {
 	createToken,
 	createRefreshToken,
-	validateRefreshToken
+	validateRefreshToken,
+	logUserActivity
 };
