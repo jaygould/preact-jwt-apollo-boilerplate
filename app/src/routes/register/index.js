@@ -1,16 +1,16 @@
 import { h, Component } from 'preact';
 import { route } from 'preact-router';
 import style from './style';
-import { login } from '../../api/auth.api';
+import { register } from '../../api/auth.api';
 
-export default class Home extends Component {
+export default class Register extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			email: null,
 			password: null,
-			authToken: null,
-			refreshToken: null
+			firstName: null,
+			lastName: null
 		};
 
 		this.handleChange = this.handleChange.bind(this);
@@ -26,10 +26,9 @@ export default class Home extends Component {
 	}
 
 	handleSubmit(e) {
-		login(this.state)
+		register(this.state)
 			.then(response => {
-				localStorage.setItem('authToken', response.authToken);
-				localStorage.setItem('refreshToken', response.refreshToken);
+				console.log(response);
 				route('/profile');
 			})
 			.catch(err => {
@@ -37,13 +36,29 @@ export default class Home extends Component {
 			});
 		e.preventDefault();
 	}
-
 	render() {
 		return (
 			<div class={style.home}>
-				<h1>Home</h1>
-				<p>This is the Home component.</p>
+				<h1>Register</h1>
 				<form onSubmit={this.handleSubmit}>
+					<label>
+						First name:
+						<input
+							type="text"
+							name="firstName"
+							value={this.state.firstName}
+							onChange={this.handleChange}
+						/>
+					</label>
+					<label>
+						Last name:
+						<input
+							type="text"
+							name="lastName"
+							value={this.state.lastName}
+							onChange={this.handleChange}
+						/>
+					</label>
 					<label>
 						Email:
 						<input

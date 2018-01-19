@@ -1,11 +1,27 @@
 import { h, Component } from 'preact';
 import style from './style';
+import { checkToken } from '../../api/auth.api';
 
 export default class Profile extends Component {
-	state = {
-		authToken: null,
-		refreshToken: null
-	};
+	constructor(props) {
+		super(props);
+		this.state = {
+			authToken: null,
+			refreshToken: null
+		};
+		this.handleSubmit = this.handleSubmit.bind(this);
+		console.log(this.props);
+	}
+
+	handleSubmit() {
+		checkToken(this.state.authToken, this.state.refreshToken)
+			.then(result => {
+				console.log(result);
+			})
+			.catch(err => {
+				console.log(err);
+			});
+	}
 
 	componentWillMount() {
 		let authToken = localStorage.getItem('authToken');
@@ -20,7 +36,33 @@ export default class Profile extends Component {
 		return (
 			<div class={style.profile}>
 				{authToken && refreshToken ? (
-					<p>YAY</p>
+					<div>
+						<p>You're logged in.</p>
+						<p>
+							<a onClick={this.handleSubmit} href="#">
+								Click here
+							</a>{' '}
+							to check your current token
+						</p>
+						<div class={style.tokens}>
+							{this.state.authToken && (
+								<div>
+									<p>
+										Auth token: <br />
+										{this.state.authToken}
+									</p>
+								</div>
+							)}
+							{this.state.refreshToken && (
+								<div>
+									<p>
+										Refresh token: <br />
+										{this.state.refreshToken}
+									</p>
+								</div>
+							)}
+						</div>
+					</div>
 				) : (
 					<p>Please go back and log in.</p>
 				)}

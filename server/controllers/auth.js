@@ -6,9 +6,13 @@ const config = require('../config/auth.js');
 const errors = require('./error');
 
 let createToken = (req, res, next) => {
-	req.authToken = jwt.sign(_.omit(req.user, 'password'), config.secret, {
-		expiresIn: '1m'
-	});
+	req.authToken = jwt.sign(
+		_.omit(req.user.toObject(), 'password'),
+		config.secret,
+		{
+			expiresIn: '1m'
+		}
+	);
 	next();
 };
 let createRefreshToken = (req, res, next) => {

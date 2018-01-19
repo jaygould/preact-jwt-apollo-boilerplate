@@ -6,8 +6,11 @@ export default class Header extends Component {
 	render() {
 		return (
 			<header class={style.header}>
-				<h1>Jay's Preact and JWT with Apollo boilerplate</h1>
+				<h1>Preact and JWT with Apollo GraphQL boilerplate</h1>
 				<nav>
+					<Link activeClassName={style.active} href="/register">
+						Register
+					</Link>
 					<Link activeClassName={style.active} href="/">
 						Home
 					</Link>
