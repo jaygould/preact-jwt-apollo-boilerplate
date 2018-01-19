@@ -10,7 +10,7 @@ let createToken = (req, res, next) => {
 		_.omit(req.user.toObject(), 'password'),
 		config.secret,
 		{
-			expiresIn: '1m'
+			expiresIn: '10s'
 		}
 	);
 	next();

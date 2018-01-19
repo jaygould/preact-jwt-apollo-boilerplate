@@ -28,7 +28,7 @@ export const register = details =>
 		.catch(error => {
 			throw error;
 		});
-export const getNewToken = refreshToken =>
+export const apiGetNewToken = refreshToken =>
 	fetch(`${config.url}/api/refreshToken`, {
 		method: 'POST',
 		headers: config.configHeaders,
@@ -41,7 +41,7 @@ export const getNewToken = refreshToken =>
 		.catch(error => {
 			throw error;
 		});
-export const checkToken = (authToken, refreshToken) =>
+export const apiCheckToken = authToken =>
 	fetch(`${config.url}/api/getAll`, {
 		method: 'POST',
 		headers: {

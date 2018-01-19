@@ -1,16 +1,16 @@
 import { h, Component } from 'preact';
+import { connect } from 'preact-redux';
 import { route } from 'preact-router';
 import style from './style';
 import { login } from '../../api/auth.api';
+import { saveTokens } from '../../reducers/auth.service';
 
-export default class Home extends Component {
+export class Home extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			email: null,
-			password: null,
-			authToken: null,
-			refreshToken: null
+			password: null
 		};
 
 		this.handleChange = this.handleChange.bind(this);
@@ -28,8 +28,7 @@ export default class Home extends Component {
 	handleSubmit(e) {
 		login(this.state)
 			.then(response => {
-				localStorage.setItem('authToken', response.authToken);
-				localStorage.setItem('refreshToken', response.refreshToken);
+				this.props.saveTokens(response.authToken, response.refreshToken);
 				route('/profile');
 			})
 			.catch(err => {
@@ -68,3 +67,17 @@ export default class Home extends Component {
 		);
 	}
 }
+
+function mapStateToProps(state, ownProps) {
+	return {};
+}
+
+function mapDispatchToProps(dispatch) {
+	return {
+		saveTokens: (authToken, refreshToken) => {
+			dispatch(saveTokens(authToken, refreshToken));
+		}
+	};
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

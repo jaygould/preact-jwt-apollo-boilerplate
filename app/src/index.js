@@ -2,15 +2,17 @@ import { h, render } from 'preact';
 import { Provider } from 'preact-redux';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
+import logger from 'redux-logger';
+import { jwt } from './middleware';
 import App from './components/app';
 import auth from './reducers/auth.reducer';
 import './style';
 
-const store = createStore(
+export const store = createStore(
 	combineReducers({
 		auth
 	}),
-	applyMiddleware(thunk)
+	applyMiddleware(jwt, thunk, logger)
 );
 
 const Main = () => (

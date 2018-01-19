@@ -1,39 +1,19 @@
 import { h, Component } from 'preact';
 import { connect } from 'preact-redux';
 import style from './style';
-import { checkToken } from '../../api/auth.api';
+import { checkToken } from '../../reducers/auth.service';
 
 export class Profile extends Component {
 	constructor(props) {
 		super(props);
-		this.state = {
-			authToken: null,
-			refreshToken: null
-		};
 		this.handleSubmit = this.handleSubmit.bind(this);
-		console.log(this.props);
 	}
 
 	handleSubmit() {
-		checkToken(this.state.authToken, this.state.refreshToken)
-			.then(result => {
-				console.log(result);
-			})
-			.catch(err => {
-				console.log(err);
-			});
+		this.props.checkToken(this.props.authToken);
 	}
 
-	componentWillMount() {
-		let authToken = localStorage.getItem('authToken');
-		let refreshToken = localStorage.getItem('refreshToken');
-		this.setState({
-			authToken,
-			refreshToken
-		});
-	}
-
-	render({}, { authToken, refreshToken }) {
+	render({ authToken, refreshToken }, {}) {
 		return (
 			<div class={style.profile}>
 				{authToken && refreshToken ? (
@@ -46,19 +26,19 @@ export class Profile extends Component {
 							to check your current token
 						</p>
 						<div class={style.tokens}>
-							{this.state.authToken && (
+							{authToken && (
 								<div>
 									<p>
 										Auth token: <br />
-										{this.state.authToken}
+										{authToken}
 									</p>
 								</div>
 							)}
-							{this.state.refreshToken && (
+							{refreshToken && (
 								<div>
 									<p>
 										Refresh token: <br />
-										{this.state.refreshToken}
+										{refreshToken}
 									</p>
 								</div>
 							)}
@@ -74,12 +54,17 @@ export class Profile extends Component {
 
 function mapStateToProps(state, ownProps) {
 	return {
-		authToken: state.auth.authToken
+		authToken: state.auth.authToken,
+		refreshToken: state.auth.refreshToken
 	};
 }
 
 function mapDispatchToProps(dispatch) {
-	return {};
+	return {
+		checkToken: authToken => {
+			dispatch(checkToken(authToken));
+		}
+	};
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);

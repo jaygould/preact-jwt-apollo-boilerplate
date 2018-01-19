@@ -117,7 +117,7 @@ router.use((req, res, next) => {
 	token = token.replace('Bearer ', '');
 	jwt.verify(token, config.secret, (err, user) => {
 		if (err) {
-			console.log(err);
+			//attempt to refresh token here... if successful, next(). Maybe won't work as we'd need the refresh token on every request?
 			return errors.errorHandler(
 				res,
 				'Your access token is invalid.',
