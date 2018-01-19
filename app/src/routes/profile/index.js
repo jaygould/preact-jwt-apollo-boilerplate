@@ -1,8 +1,9 @@
 import { h, Component } from 'preact';
+import { connect } from 'preact-redux';
 import style from './style';
 import { checkToken } from '../../api/auth.api';
 
-export default class Profile extends Component {
+export class Profile extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -70,3 +71,15 @@ export default class Profile extends Component {
 		);
 	}
 }
+
+function mapStateToProps(state, ownProps) {
+	return {
+		authToken: state.auth.authToken
+	};
+}
+
+function mapDispatchToProps(dispatch) {
+	return {};
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);
