@@ -7,8 +7,8 @@ export const login = details =>
 		headers: config.configHeaders,
 		body: JSON.stringify({ email: details.email, password: details.password })
 	})
-		.then(handleErrors)
 		.then(response => response.json())
+		.then(handleErrors)
 		.catch(error => {
 			throw error;
 		});
@@ -23,8 +23,8 @@ export const register = details =>
 			password: details.password
 		})
 	})
-		.then(handleErrors)
 		.then(response => response.json())
+		.then(handleErrors)
 		.catch(error => {
 			throw error;
 		});
@@ -36,21 +36,23 @@ export const apiGetNewToken = refreshToken =>
 			refreshToken
 		})
 	})
-		.then(handleErrors)
 		.then(response => response.json())
+		.then(handleErrors)
 		.catch(error => {
 			throw error;
 		});
-export const apiCheckToken = authToken =>
-	fetch(`${config.url}/api/getAll`, {
+export const apiCheckToken = () => {
+	let authToken = localStorage.getItem('authToken');
+	return fetch(`${config.url}/api/getAll`, {
 		method: 'POST',
 		headers: {
 			...config.configHeaders,
 			Authorization: 'Bearer ' + authToken
 		}
 	})
-		.then(handleErrors)
 		.then(response => response.json())
+		.then(handleErrors)
 		.catch(error => {
 			throw error;
 		});
+};

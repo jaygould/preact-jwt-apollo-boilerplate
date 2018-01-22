@@ -10,7 +10,8 @@ export class Home extends Component {
 		super(props);
 		this.state = {
 			email: null,
-			password: null
+			password: null,
+			loginError: null
 		};
 
 		this.handleChange = this.handleChange.bind(this);
@@ -32,12 +33,14 @@ export class Home extends Component {
 				route('/profile');
 			})
 			.catch(err => {
-				console.log(err);
+				this.setState({
+					loginError: err.message
+				});
 			});
 		e.preventDefault();
 	}
 
-	render() {
+	render({}, { email, value, loginError }) {
 		return (
 			<div class={style.home}>
 				<h1>Home</h1>
@@ -48,7 +51,7 @@ export class Home extends Component {
 						<input
 							type="text"
 							name="email"
-							value={this.state.email}
+							value={email}
 							onChange={this.handleChange}
 						/>
 					</label>
@@ -57,11 +60,12 @@ export class Home extends Component {
 						<input
 							type="password"
 							name="password"
-							value={this.state.value}
+							value={value}
 							onChange={this.handleChange}
 						/>
 					</label>
 					<input type="submit" value="Submit" />
+					{loginError && <p class="errorNotice"> {loginError} </p>}
 				</form>
 			</div>
 		);

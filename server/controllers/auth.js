@@ -10,13 +10,16 @@ let createToken = (req, res, next) => {
 		_.omit(req.user.toObject(), 'password'),
 		config.secret,
 		{
-			expiresIn: '10s'
+			expiresIn: '5s' //lower value for testing
 		}
 	);
 	next();
 };
 let createRefreshToken = (req, res, next) => {
-	//if refresh token doesnt exist already. It won't exist when signing up abviously, but when the user logs in they should have one already in the DB. This just adds one in if they haven't (testing mainly). It doesn't always need to be in the /login endpoint route
+	//if refresh token doesnt exist already. It won't exist when signing up abviously,
+	//but when the user logs in they should have one already in the DB.
+	//This just adds one in if they haven't (testing mainly). It doesn't always need
+	//to be in the /login endpoint route
 	if (!req.user.refreshToken) {
 		req.refreshToken = jwt.sign({ type: 'refresh' }, config.secret, {
 			expiresIn: 60 * 60 * 24 * 90

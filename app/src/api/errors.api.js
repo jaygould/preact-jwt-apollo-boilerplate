@@ -1,11 +1,13 @@
 import { store } from '../index';
 
 export const handleErrors = response => {
-	if (response.status === 403) {
-		store.dispatch({ type: 'INVALID_TOKEN' });
-	}
-	if (!response.ok) {
-		throw Error(response.statusText);
+	if (!response.success) {
+		if (response.code && response.code === 'invalidToken') {
+			store.dispatch({ type: 'INVALID_TOKEN' });
+		}
+		else {
+			throw Error(response.message);
+		}
 	}
 	return response;
 };

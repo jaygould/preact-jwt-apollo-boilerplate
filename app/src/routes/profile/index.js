@@ -13,12 +13,14 @@ export class Profile extends Component {
 		this.props.checkToken(this.props.authToken);
 	}
 
-	render({ authToken, refreshToken }, {}) {
+	render({ authToken, refreshToken, firstName, lastName }, {}) {
 		return (
 			<div class={style.profile}>
 				{authToken && refreshToken ? (
 					<div>
-						<p>You're logged in.</p>
+						<p>
+							Welcome back, {firstName} {lastName}. You're logged in.
+						</p>
 						<p>
 							<a onClick={this.handleSubmit} href="#">
 								Click here
@@ -28,18 +30,14 @@ export class Profile extends Component {
 						<div class={style.tokens}>
 							{authToken && (
 								<div>
-									<p>
-										Auth token: <br />
-										{authToken}
-									</p>
+									<p>Auth token:</p>
+									<div class={style.token}>{authToken}</div>
 								</div>
 							)}
 							{refreshToken && (
 								<div>
-									<p>
-										Refresh token: <br />
-										{refreshToken}
-									</p>
+									<p>Refresh token:</p>
+									<div class={style.token}>{refreshToken}</div>
 								</div>
 							)}
 						</div>
@@ -55,7 +53,9 @@ export class Profile extends Component {
 function mapStateToProps(state, ownProps) {
 	return {
 		authToken: state.auth.authToken,
-		refreshToken: state.auth.refreshToken
+		refreshToken: state.auth.refreshToken,
+		firstName: state.auth.firstName,
+		lastName: state.auth.lastName
 	};
 }
 

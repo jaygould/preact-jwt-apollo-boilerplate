@@ -11,11 +11,13 @@ const errors = require('./error');
 router.post(
 	'/signup',
 	(req, res, next) => {
-		if (!req.body.email || !req.body.password) {
-			return errors.errorHandler(
-				res,
-				'You must send the username and the password.'
-			);
+		if (
+			!req.body.first ||
+			!req.body.last ||
+			!req.body.email ||
+			!req.body.password
+		) {
+			return errors.errorHandler(res, 'You must send all details.');
 		}
 		Users.find({ email: req.body.email })
 			.then(user => {

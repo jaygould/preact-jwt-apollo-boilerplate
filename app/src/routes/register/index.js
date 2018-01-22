@@ -10,7 +10,8 @@ export default class Register extends Component {
 			email: null,
 			password: null,
 			firstName: null,
-			lastName: null
+			lastName: null,
+			registerError: null
 		};
 
 		this.handleChange = this.handleChange.bind(this);
@@ -28,15 +29,16 @@ export default class Register extends Component {
 	handleSubmit(e) {
 		register(this.state)
 			.then(response => {
-				console.log(response);
 				route('/profile');
 			})
 			.catch(err => {
-				console.log(err);
+				this.setState({
+					registerError: err.message
+				});
 			});
 		e.preventDefault();
 	}
-	render() {
+	render({}, { registerError }) {
 		return (
 			<div class={style.home}>
 				<h1>Register</h1>
@@ -79,6 +81,7 @@ export default class Register extends Component {
 					</label>
 					<input type="submit" value="Submit" />
 				</form>
+				{registerError && <p class="errorNotice"> {registerError} </p>}
 			</div>
 		);
 	}

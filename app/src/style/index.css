@@ -1,9 +1,10 @@
-html, body {
+html,
+body {
 	height: 100%;
 	width: 100%;
 	padding: 0;
 	margin: 0;
-	background: #FAFAFA;
+	background: #fafafa;
 	font-family: 'Helvetica Neue', arial, sans-serif;
 	font-weight: 400;
 	color: #444;
@@ -17,4 +18,13 @@ html, body {
 
 #app {
 	height: 100%;
+}
+.errorNotice {
+	padding: 10px 30px;
+	background: #f97474;
+	border: 1px solid #dd2e2e;
+	border-radius: 6px;
+	text-align: center;
+	color: #fff;
+	margin-top: 40px;
 }

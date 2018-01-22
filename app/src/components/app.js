@@ -1,14 +1,15 @@
 import { h, Component } from 'preact';
+import { connect } from 'preact-redux';
 import { Router } from 'preact-router';
 
 import Header from './header';
 import Register from '../routes/register';
 import Home from '../routes/home';
 import Profile from '../routes/profile';
-// import Home from 'async!../routes/home';
-// import Profile from 'async!../routes/profile';
 
-export default class App extends Component {
+import { loadLocalUserAuth } from '../reducers/auth.service';
+
+export class App extends Component {
 
 	/** Gets fired when the route changes.
 	 *	@param {Object} event		"change" event from [preact-router](http://git.io/preact-router)
@@ -17,6 +18,11 @@ export default class App extends Component {
 	handleRoute = e => {
 		this.currentUrl = e.url;
 	};
+
+	componentWillMount() {
+		//loads user info from localStorage
+		this.props.loadLocalUserAuth();
+	}
 
 	render() {
 		return (
@@ -32,3 +38,16 @@ export default class App extends Component {
 		);
 	}
 }
+function mapStateToProps(state, ownProps) {
+	return {};
+}
+
+function mapDispatchToProps(dispatch) {
+	return {
+		loadLocalUserAuth: () => {
+			dispatch(loadLocalUserAuth());
+		}
+	};
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

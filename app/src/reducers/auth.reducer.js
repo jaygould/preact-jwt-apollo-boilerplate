@@ -1,14 +1,18 @@
 // Actions
-export const saveTokensToStore = tokens => ({
+export const saveTokensToStore = (tokens, userInfo) => ({
 	type: 'SAVE_TOKENS',
-	tokens
+	tokens,
+	userInfo
 });
 
 //Reducer
 let initialState = {
 	authToken: null,
 	refreshToken: null,
-	pendingRefreshingToken: null
+	pendingRefreshingToken: null,
+	firstName: null,
+	lastName: null,
+	emailAddress: null
 };
 
 export default function(state = initialState, action) {
@@ -17,7 +21,10 @@ export default function(state = initialState, action) {
 			return {
 				...state,
 				authToken: action.tokens.authToken,
-				refreshToken: action.tokens.refreshToken
+				refreshToken: action.tokens.refreshToken,
+				firstName: action.userInfo.first,
+				lastName: action.userInfo.last,
+				emailAddress: action.userInfo.email
 			};
 		case 'REFRESHING_TOKEN':
 			return {
