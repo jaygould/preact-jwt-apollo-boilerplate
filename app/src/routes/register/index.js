@@ -29,7 +29,7 @@ export default class Register extends Component {
 	handleSubmit(e) {
 		register(this.state)
 			.then(response => {
-				route('/profile');
+				route('/');
 			})
 			.catch(err => {
 				this.setState({

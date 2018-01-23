@@ -18,6 +18,11 @@ export class Home extends Component {
 		this.handleSubmit = this.handleSubmit.bind(this);
 	}
 
+	componentWillMount() {
+		this.props.refreshExpired &&
+			this.setState({ loginError: 'Your refresh token has expired.' });
+	}
+
 	handleChange(e) {
 		const value = e.target.value;
 		const name = e.target.name;

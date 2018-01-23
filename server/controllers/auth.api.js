@@ -64,9 +64,8 @@ router.post(
 		}
 		Users.findOne({ email: req.body.email })
 			.then(user => {
-				if (user.length == 0) {
-					return errors.errorHandler(res, 'There has been an error.');
-				}
+				console.log(user);
+				if (!user) return errors.errorHandler(res, 'No matching user.');
 				bcrypt.compare(req.body.password, user.password, (err, success) => {
 					if (err) {
 						return errors.errorHandler(
@@ -84,6 +83,7 @@ router.post(
 				});
 			})
 			.catch(err => {
+				console.log('err', err);
 				return errors.errorHandler(res, err);
 			});
 	},

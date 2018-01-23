@@ -20,27 +20,34 @@ let createRefreshToken = (req, res, next) => {
 	//but when the user logs in they should have one already in the DB.
 	//This just adds one in if they haven't (testing mainly). It doesn't always need
 	//to be in the /login endpoint route
-	if (!req.user.refreshToken) {
-		req.refreshToken = jwt.sign({ type: 'refresh' }, config.secret, {
-			expiresIn: 60 * 60 * 24 * 90
+	req.refreshToken = jwt.sign({ type: 'refresh' }, config.secret, {
+		expiresIn: 60 * 60 // 1 hour
+	});
+	Users.findOneAndUpdate(
+		{ email: req.user.email },
+		{ refreshToken: req.refreshToken }
+	)
+		.then(() => {
+			next();
+		})
+		.catch(err => {
+			return errors.errorHandler(res, err);
 		});
-		Users.findOneAndUpdate(
-			{ email: req.user.email },
-			{ refreshToken: req.refreshToken }
-		)
-			.then(() => {
-				next();
-			})
-			.catch(err => {
-				return errors.errorHandler(res, err);
-			});
-	} else {
-		req.refreshToken = req.user.refreshToken;
-		next();
-	}
 };
 let validateRefreshToken = (req, res, next) => {
-	if (req.body.refreshToken != '') {
+	let refreshToken = req.body.refreshToken;
+
+	if (refreshToken != '') {
+		jwt.verify(refreshToken, config.secret, err => {
+			if (err) {
+				return errors.errorHandler(
+					res,
+					'Refresh token expired - session ended.',
+					'refreshExpired'
+				);
+			}
+		});
+
 		Users.findOne({ refreshToken: req.body.refreshToken })
 			.then(user => {
 				req.user = user;
