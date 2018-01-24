@@ -12,7 +12,8 @@ let initialState = {
 	pendingRefreshingToken: null,
 	firstName: null,
 	lastName: null,
-	emailAddress: null
+	emailAddress: null,
+	tokenIsValid: true
 };
 
 export default function(state = initialState, action) {
@@ -26,15 +27,27 @@ export default function(state = initialState, action) {
 				lastName: action.userInfo.last,
 				emailAddress: action.userInfo.email
 			};
+		case 'INVALID_TOKEN':
+			return {
+				...state,
+				tokenIsValid: false
+			};
 		case 'REFRESHING_TOKEN':
 			return {
 				...state,
-				pendingRefreshingToken: true
+				pendingRefreshingToken: true,
+				tokenIsValid: false
 			};
 		case 'TOKEN_REFRESHED':
 			return {
 				...state,
-				pendingRefreshingToken: null
+				pendingRefreshingToken: null,
+				tokenIsValid: true
+			};
+		case 'TOKEN_IS_VALID':
+			return {
+				...state,
+				tokenIsValid: true
 			};
 
 		default:

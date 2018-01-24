@@ -2,7 +2,11 @@ import { route } from 'preact-router';
 import jwtDecode from 'jwt-decode';
 import moment from 'moment';
 import { saveTokensToStore } from './auth.reducer';
-import { apiCheckToken, apiGetNewToken } from '../api/auth.api';
+import {
+	apiCheckToken,
+	apiGetNewToken,
+	apiGetAllTokens
+} from '../api/auth.api';
 
 export const loadLocalUserAuth = () => dispatch => {
 	let authToken = localStorage.getItem('authToken');
@@ -34,11 +38,11 @@ export const saveTokens = (authToken, refreshToken) => dispatch => {
 export const checkToken = () => dispatch => {
 	apiCheckToken()
 		.then(rsp => {
-			console.log(rsp); //token is ok and here is result
+			if (rsp.success) {
+				dispatch({ type: 'TOKEN_IS_VALID' });
+			}
 		})
-		.catch(err => {
-			console.log('err', err);
-		});
+		.catch(err => {});
 };
 
 export const refreshToken = refreshToken => dispatch =>
@@ -54,6 +58,12 @@ export const logoutUser = reason => {
 	localStorage.removeItem('authToken');
 	localStorage.removeItem('refreshToken');
 	reason === 'refreshExpired' ? route('/?refreshExpired=true') : route('/');
+};
+
+export const getAllTokens = () => {
+	apiGetAllTokens()
+		.then(tokens => console.log(tokens))
+		.catch(err => console.log(err));
 };
 
 //this function is used to check if the token is about to expire in the next 30 seconds.

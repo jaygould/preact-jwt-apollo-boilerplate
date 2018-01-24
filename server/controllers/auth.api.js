@@ -132,7 +132,14 @@ router.use((req, res, next) => {
 	});
 });
 
-router.post('/getAll', (req, res) => {
+router.post('/checkToken', (req, res) => {
+	res.status(201).send({
+		success: true,
+		message: 'Token is still valid.'
+	});
+});
+
+router.post('/getAllUsers', (req, res) => {
 	Users.find()
 		.then(users => {
 			res.status(201).send({
