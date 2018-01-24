@@ -8,11 +8,19 @@ const resolvers = {
 		},
 		allUsers() {
 			return Users.find();
+		},
+		allLoginActivity() {
+			return LoginActivity.find();
 		}
 	},
 	User: {
 		thisLoginActivity(user) {
 			return LoginActivity.find({ userID: user._id });
+		}
+	},
+	LoginActivity: {
+		user(activity) {
+			return Users.findOne({ _id: activity.userID });
 		}
 	}
 };

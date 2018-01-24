@@ -6,13 +6,16 @@ const resolvers = require('./gql/resolvers');
 //const mocks = require('./gql/mocks');
 
 const typeDefs = `
+# Entry points
 type Query {
   user(email: String): User
   allUsers: [User]
+	allLoginActivity: [LoginActivity]
 }
 
+# Custom types
 type User {
-  id: Int
+  id: String
   first: String
   last: String
   email: String
@@ -22,7 +25,8 @@ type User {
 }
 
 type LoginActivity {
-  userID: User
+  user: User
+	activityType: String
   time: String
 }
 `;
