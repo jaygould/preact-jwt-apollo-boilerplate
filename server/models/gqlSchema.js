@@ -29,6 +29,8 @@ type LoginActivity {
 	activityType: String
   time: String
 }
+
+### Get currently active refresh tokens - perhaps do this without Apollo beforehand?
 `;
 
 const schema = makeExecutableSchema({ typeDefs, resolvers });
