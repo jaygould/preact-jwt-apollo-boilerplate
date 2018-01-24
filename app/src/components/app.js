@@ -6,6 +6,7 @@ import Header from './header';
 import Register from '../routes/register';
 import Home from '../routes/home';
 import Profile from '../routes/profile';
+import Admin from '../routes/admin';
 
 import { loadLocalUserAuth } from '../reducers/auth.service';
 
@@ -33,14 +34,13 @@ export class App extends Component {
 					<Home path="/" />
 					<Profile path="/profile/" user="me" />
 					<Profile path="/profile/:user" />
+					<Admin path="/admin" />
 				</Router>
 			</div>
 		);
 	}
 }
-function mapStateToProps(state, ownProps) {
-	return {};
-}
+function mapStateToProps(state, ownProps) {}
 
 function mapDispatchToProps(dispatch) {
 	return {

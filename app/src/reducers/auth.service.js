@@ -2,11 +2,7 @@ import { route } from 'preact-router';
 import jwtDecode from 'jwt-decode';
 import moment from 'moment';
 import { saveTokensToStore } from './auth.reducer';
-import {
-	apiCheckToken,
-	apiGetNewToken,
-	apiGetAllTokens
-} from '../api/auth.api';
+import { apiCheckToken, apiGetNewToken, apiGetAllUsers } from '../api/auth.api';
 
 export const loadLocalUserAuth = () => dispatch => {
 	let authToken = localStorage.getItem('authToken');
@@ -61,7 +57,7 @@ export const logoutUser = reason => {
 };
 
 export const getAllTokens = () => {
-	apiGetAllTokens()
+	apiGetAllUsers()
 		.then(tokens => console.log(tokens))
 		.catch(err => console.log(err));
 };
