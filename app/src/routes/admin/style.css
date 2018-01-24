@@ -3,16 +3,15 @@
 	min-height: 100%;
 	width: 100%;
 }
-.tokens {
+.eachToken {
 	-ms-word-break: break-all;
 	word-break: break-all;
 	word-break: break-word;
-}
-.token {
 	background: #fff;
 	padding: 10px;
 	border: 1px solid #d5d5d5;
 	border-radius: 4px;
 	font-size: 14px;
 	font-family: monospace;
+	margin-bottom: 20px;
 }

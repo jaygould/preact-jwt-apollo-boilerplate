@@ -1,22 +1,16 @@
 import { route } from 'preact-router';
 import jwtDecode from 'jwt-decode';
 import moment from 'moment';
-import { saveTokensToStore } from './auth.reducer';
-import {
-	apiCheckToken,
-	apiGetNewToken,
-	apiGetAllTokens
-} from '../api/auth.api';
+import { saveTokensToStore, adminTokensReceived } from './auth.reducer';
+import { apiCheckToken, apiGetNewToken, apiGetAllUsers } from '../api/auth.api';
 
 export const loadLocalUserAuth = () => dispatch => {
-	let authToken = localStorage.getItem('authToken');
 	let refreshToken = localStorage.getItem('refreshToken');
 	if (!refreshToken) return;
-
 	apiGetNewToken(refreshToken)
 		.then(rsp => {
 			if (rsp.success) {
-				return dispatch(saveTokens(authToken, refreshToken));
+				return dispatch(saveTokens(rsp.authToken, refreshToken));
 			}
 			localStorage.removeItem('authToken');
 			localStorage.removeItem('refreshToken');
@@ -60,9 +54,19 @@ export const logoutUser = reason => {
 	reason === 'refreshExpired' ? route('/?refreshExpired=true') : route('/');
 };
 
-export const getAllTokens = () => {
-	apiGetAllTokens()
-		.then(tokens => console.log(tokens))
+export const getAllTokens = () => dispatch => {
+	apiGetAllUsers()
+		.then(tokens => {
+			let newFormat = tokens.message.map(token => {
+				if (token.refreshToken) {
+					let decoded = jwtDecode(token.refreshToken);
+					return (decoded.tokena = token.refreshToken);
+				}
+			});
+			console.log(newFormat);
+
+			dispatch(adminTokensReceived(tokens.message));
+		})
 		.catch(err => console.log(err));
 };
 

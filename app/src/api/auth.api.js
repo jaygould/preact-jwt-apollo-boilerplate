@@ -56,9 +56,9 @@ export const apiCheckToken = () => {
 			throw error;
 		});
 };
-export const apiGetAllTokens = () => {
+export const apiGetAllUsers = () => {
 	let authToken = localStorage.getItem('authToken');
-	return fetch(`${config.url}/api/getAllTokens`, {
+	return fetch(`${config.url}/api/getAllUsers`, {
 		method: 'POST',
 		headers: {
 			...config.configHeaders,

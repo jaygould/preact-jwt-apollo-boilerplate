@@ -5,6 +5,11 @@ export const saveTokensToStore = (tokens, userInfo) => ({
 	userInfo
 });
 
+export const adminTokensReceived = tokens => ({
+	type: 'ADMIN_TOKENS_RECEIVED',
+	tokens
+});
+
 //Reducer
 let initialState = {
 	authToken: null,
@@ -13,7 +18,8 @@ let initialState = {
 	firstName: null,
 	lastName: null,
 	emailAddress: null,
-	tokenIsValid: true
+	tokenIsValid: true,
+	adminAllTokens: []
 };
 
 export default function(state = initialState, action) {
@@ -48,6 +54,11 @@ export default function(state = initialState, action) {
 			return {
 				...state,
 				tokenIsValid: true
+			};
+		case 'ADMIN_TOKENS_RECEIVED':
+			return {
+				...state,
+				adminAllTokens: action.tokens
 			};
 
 		default:

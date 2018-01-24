@@ -8,16 +8,22 @@ export class Admin extends Component {
 		super(props);
 	}
 
-	componentDidMount() {
+	componentWillMount() {
 		this.props.getAllTokens();
 	}
 
-	render({ authTokens, refreshTokens }, {}) {
+	render({ adminAllTokens }, {}) {
 		return (
 			<div class={style.profile}>
 				<h1>Admin</h1>
 				<p>View all tokens in the database</p>
-				{authTokens.map(token => <li>{token}</li>)}
+				{adminAllTokens.length > 0 &&
+					adminAllTokens.map(
+						user =>
+							user.refreshToken && (
+								<div class={style.eachToken}>{user.refreshToken}</div>
+							)
+					)}
 			</div>
 		);
 	}
@@ -25,15 +31,14 @@ export class Admin extends Component {
 
 function mapStateToProps(state, ownProps) {
 	return {
-		authTokens: state.auth.authTokens,
-		refreshTokens: state.auth.refreshToken
+		adminAllTokens: state.auth.adminAllTokens
 	};
 }
 
 function mapDispatchToProps(dispatch) {
 	return {
-		getAllTokens: authToken => {
-			dispatch(getAllTokens(authToken));
+		getAllTokens: () => {
+			dispatch(getAllTokens());
 		}
 	};
 }
