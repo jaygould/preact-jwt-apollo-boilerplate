@@ -43,7 +43,22 @@ export const apiGetNewToken = refreshToken =>
 		});
 export const apiCheckToken = () => {
 	let authToken = localStorage.getItem('authToken');
-	return fetch(`${config.url}/api/getAll`, {
+	return fetch(`${config.url}/api/checkToken`, {
+		method: 'POST',
+		headers: {
+			...config.configHeaders,
+			Authorization: 'Bearer ' + authToken
+		}
+	})
+		.then(response => response.json())
+		.then(handleErrors)
+		.catch(error => {
+			throw error;
+		});
+};
+export const apiGetAllTokens = () => {
+	let authToken = localStorage.getItem('authToken');
+	return fetch(`${config.url}/api/getAllTokens`, {
 		method: 'POST',
 		headers: {
 			...config.configHeaders,

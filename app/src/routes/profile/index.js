@@ -7,15 +7,39 @@ export class Profile extends Component {
 	constructor(props) {
 		super(props);
 		this.handleSubmit = this.handleSubmit.bind(this);
+		this.state = {
+			stateTokenRefreshed: null
+		};
 	}
 
 	handleSubmit() {
 		this.props.checkToken(this.props.authToken);
 	}
 
-	render({ authToken, refreshToken, firstName, lastName }, {}) {
+	shouldComponentUpdate(np, ns) {
+		if (np.tokenIsValid !== this.props.tokenIsValid) {
+			if (this.props.tokenIsValid) {
+				this.setState({
+					stateTokenRefreshed: true
+				});
+
+				setTimeout(() => {
+					this.setState({
+						stateTokenRefreshed: false
+					});
+				}, 1000);
+			}
+		}
+	}
+
+	render(
+		{ authToken, refreshToken, firstName, lastName, tokenIsValid },
+		{ stateTokenRefreshed }
+	) {
 		return (
 			<div class={style.profile}>
+				<h1>Your tokens</h1>
+
 				{authToken && refreshToken ? (
 					<div>
 						<p>
@@ -27,6 +51,18 @@ export class Profile extends Component {
 							</a>{' '}
 							to check your current token
 						</p>
+						<div>
+							<span>
+								{tokenIsValid ? (
+									<span class={style.tokenValid}> Token Valid</span>
+								) : (
+									<span class={style.tokenNotValid}> Token not valid</span>
+								)}
+							</span>
+							{stateTokenRefreshed && (
+								<span class={style.tokenRefreshed}>Token refreshed</span>
+							)}
+						</div>
 						<div class={style.tokens}>
 							{authToken && (
 								<div>
@@ -55,7 +91,8 @@ function mapStateToProps(state, ownProps) {
 		authToken: state.auth.authToken,
 		refreshToken: state.auth.refreshToken,
 		firstName: state.auth.firstName,
-		lastName: state.auth.lastName
+		lastName: state.auth.lastName,
+		tokenIsValid: state.auth.tokenIsValid
 	};
 }
 

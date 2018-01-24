@@ -16,3 +16,25 @@
 	font-size: 14px;
 	font-family: monospace;
 }
+.tokenValid {
+	padding: 4px 6px;
+	border: 1px solid rgb(32, 182, 19);
+	background: rgb(78, 175, 66);
+	color: #fff;
+	border-radius: 4px;
+}
+.tokenNotValid {
+	padding: 4px 6px;
+	background: #f97474;
+	border: 1px solid #dd2e2e;
+	color: #fff;
+	border-radius: 4px;
+}
+.tokenRefreshed {
+	padding: 4px 6px;
+	border: 1px solid rgb(32, 182, 19);
+	background: rgb(78, 175, 66);
+	color: #fff;
+	margin-left: 10px;
+	border-radius: 4px;
+}
