@@ -10,6 +10,7 @@ body {
 	color: #444;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+	font-size: 15px;
 }
 
 * {
@@ -27,4 +28,17 @@ body {
 	text-align: center;
 	color: #fff;
 	margin-top: 40px;
+}
+label {
+	width: 150px;
+	display: inline-block;
+	margin-bottom: 8px;
+}
+input[type='text'],
+input[type='password'] {
+	width: 70%;
+	padding: 10px;
+	border-radius: 4px;
+	border: 1px solid #e3e3e3;
+	font-size: 14px;
 }

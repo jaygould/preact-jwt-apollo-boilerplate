@@ -16,12 +16,18 @@ export class Admin extends Component {
 		return (
 			<div class={style.profile}>
 				<h1>Admin</h1>
-				<p>View all tokens in the database</p>
 				{adminAllTokens.length > 0 &&
 					adminAllTokens.map(
 						user =>
+							user &&
 							user.refreshToken && (
-								<div class={style.eachToken}>{user.refreshToken}</div>
+								<div class={style.eachTokenWrap}>
+									<div class={style.eachToken}>{user.refreshToken}</div>
+									<div class={style.tokenDetails}>
+										<p>User email: {user.email}</p>
+										<p>Token expires {user.expiresIn}</p>
+									</div>
+								</div>
 							)
 					)}
 			</div>

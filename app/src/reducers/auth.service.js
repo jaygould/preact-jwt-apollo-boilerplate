@@ -60,12 +60,16 @@ export const getAllTokens = () => dispatch => {
 			let newFormat = tokens.message.map(token => {
 				if (token.refreshToken) {
 					let decoded = jwtDecode(token.refreshToken);
-					return (decoded.tokena = token.refreshToken);
+					let expiresIn = moment.unix(decoded.exp).fromNow();
+
+					return {
+						refreshToken: token.refreshToken,
+						email: token.email,
+						expiresIn
+					};
 				}
 			});
-			console.log(newFormat);
-
-			dispatch(adminTokensReceived(tokens.message));
+			dispatch(adminTokensReceived(newFormat));
 		})
 		.catch(err => console.log(err));
 };

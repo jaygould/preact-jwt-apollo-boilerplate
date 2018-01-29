@@ -43,42 +43,45 @@ export default class Register extends Component {
 			<div class={style.home}>
 				<h1>Register</h1>
 				<form onSubmit={this.handleSubmit}>
-					<label>
-						First name:
+					<div class={style.inputWrap}>
+						<label>First name:</label>
 						<input
 							type="text"
 							name="firstName"
 							value={this.state.firstName}
 							onChange={this.handleChange}
 						/>
-					</label>
-					<label>
-						Last name:
+					</div>
+
+					<div class={style.inputWrap}>
+						<label>Last name:</label>
 						<input
 							type="text"
 							name="lastName"
 							value={this.state.lastName}
 							onChange={this.handleChange}
 						/>
-					</label>
-					<label>
-						Email:
+					</div>
+
+					<div class={style.inputWrap}>
+						<label>Email:</label>
 						<input
 							type="text"
 							name="email"
 							value={this.state.email}
 							onChange={this.handleChange}
 						/>
-					</label>
-					<label>
-						Password:
+					</div>
+
+					<div class={style.inputWrap}>
+						<label>Password:</label>
 						<input
 							type="password"
 							name="password"
 							value={this.state.value}
 							onChange={this.handleChange}
 						/>
-					</label>
+					</div>
 					<input type="submit" value="Submit" />
 				</form>
 				{registerError && <p class="errorNotice"> {registerError} </p>}

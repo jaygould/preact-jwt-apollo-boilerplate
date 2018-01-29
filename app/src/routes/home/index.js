@@ -51,24 +51,25 @@ export class Home extends Component {
 				<h1>Home</h1>
 				<p>This is the Home component.</p>
 				<form onSubmit={this.handleSubmit}>
-					<label>
-						Email:
+					<div class={style.inputWrap}>
+						<label>Email:</label>
 						<input
 							type="text"
 							name="email"
 							value={email}
 							onChange={this.handleChange}
 						/>
-					</label>
-					<label>
-						Password:
+					</div>
+					<div class={style.inputWrap}>
+						<label>Password:</label>
 						<input
 							type="password"
 							name="password"
 							value={value}
 							onChange={this.handleChange}
 						/>
-					</label>
+					</div>
+
 					<input type="submit" value="Submit" />
 					{loginError && <p class="errorNotice"> {loginError} </p>}
 				</form>

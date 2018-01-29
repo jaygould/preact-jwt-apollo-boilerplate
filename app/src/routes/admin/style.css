@@ -3,6 +3,10 @@
 	min-height: 100%;
 	width: 100%;
 }
+.eachTokenWrap {
+	display: flex;
+	margin-bottom: 20px;
+}
 .eachToken {
 	-ms-word-break: break-all;
 	word-break: break-all;
@@ -13,5 +17,14 @@
 	border-radius: 4px;
 	font-size: 14px;
 	font-family: monospace;
-	margin-bottom: 20px;
+	width: 70%;
+}
+.tokenDetails {
+	align-self: center;
+	margin-left: 20px;
+}
+.tokenDetails p {
+	margin: 0px;
+	margin-bottom: 5px;
+	font-size: 14px;
 }
