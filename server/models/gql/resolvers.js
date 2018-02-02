@@ -19,7 +19,7 @@ const resolvers = {
 		}
 	},
 	LoginActivity: {
-		user(activity) {
+		thisUser(activity) {
 			return Users.findOne({ _id: activity.userID });
 		}
 	}

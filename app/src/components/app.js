@@ -40,7 +40,9 @@ export class App extends Component {
 		);
 	}
 }
-function mapStateToProps(state, ownProps) {}
+function mapStateToProps(state, ownProps) {
+	return {};
+}
 
 function mapDispatchToProps(dispatch) {
 	return {

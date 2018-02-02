@@ -25,7 +25,7 @@ type User {
 }
 
 type LoginActivity {
-  user: User
+  thisUser: User
 	activityType: String
   time: String
 }

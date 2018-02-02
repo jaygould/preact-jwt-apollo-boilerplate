@@ -21,14 +21,6 @@ const authApi = require('./controllers/auth.api');
 //Create server
 const app = express();
 
-//DB setup
-mongoUtil.connectToServer(err => {
-	if (err) return console.log(err);
-});
-
-//GraphQL setup
-graphql.connect(app);
-
 //Express configuration
 app.set('port', process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 1138);
 app.set('views', path.join(__dirname, 'views'));
@@ -48,6 +40,14 @@ app.use(
 
 //Error handler
 app.use(errorHandler());
+
+//DB setup
+mongoUtil.connectToServer(err => {
+	if (err) return console.log(err);
+});
+
+//GraphQL setup
+graphql.connect(app);
 
 //API routes
 app.use('/api', authApi);
