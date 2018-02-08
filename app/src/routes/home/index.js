@@ -35,6 +35,7 @@ export class Home extends Component {
 		login(this.state)
 			.then(response => {
 				this.props.saveTokens(response.authToken, response.refreshToken);
+				console.log(response);
 				route('/profile');
 			})
 			.catch(err => {

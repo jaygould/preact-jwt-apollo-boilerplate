@@ -1,7 +1,10 @@
 import { h, Component } from 'preact';
 import { connect } from 'preact-redux';
 import style from './style';
-import { getAllTokens } from '../../reducers/auth.service';
+import { getAllTokens, formatAdminTokens } from '../../reducers/auth.service';
+
+import gql from 'graphql-tag';
+import { graphql } from 'react-apollo';
 
 export class Admin extends Component {
 	constructor(props) {
@@ -9,15 +12,15 @@ export class Admin extends Component {
 	}
 
 	componentWillMount() {
-		this.props.getAllTokens();
+		// this.props.getAllTokens();
 	}
 
-	render({ adminAllTokens }, {}) {
+	render({ /*adminAllTokens,*/ gqladminAllTokens }, {}) {
 		return (
 			<div class={style.profile}>
 				<h1>Admin</h1>
-				{adminAllTokens.length > 0 &&
-					adminAllTokens.map(
+				{gqladminAllTokens.length > 0 &&
+					gqladminAllTokens.map(
 						user =>
 							user &&
 							user.refreshToken && (
@@ -35,18 +38,40 @@ export class Admin extends Component {
 	}
 }
 
+const AllRefreshTokens = gql`
+	query {
+		allUsers {
+			refreshToken
+			email
+		}
+	}
+`;
+
+const AdminWithData = graphql(AllRefreshTokens, {
+	props: ({ ownProps, data }) => {
+		let gqladminAllTokens = [];
+		if (data && data.allUsers && data.allUsers.length) {
+			gqladminAllTokens = formatAdminTokens(data.allUsers);
+		}
+		return {
+			...data,
+			gqladminAllTokens
+		};
+	}
+})(Admin);
+
 function mapStateToProps(state, ownProps) {
 	return {
-		adminAllTokens: state.auth.adminAllTokens
+		// adminAllTokens: state.auth.adminAllTokens
 	};
 }
 
 function mapDispatchToProps(dispatch) {
 	return {
-		getAllTokens: () => {
-			dispatch(getAllTokens());
-		}
+		// getAllTokens: () => {
+		// 	dispatch(getAllTokens());
+		// }
 	};
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Admin);
+export default connect(mapStateToProps, mapDispatchToProps)(AdminWithData);

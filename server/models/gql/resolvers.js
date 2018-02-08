@@ -1,4 +1,5 @@
 const Users = require('../Users');
+const { registerUser } = require('./modelAuth');
 const LoginActivity = require('../LoginActivity');
 
 const resolvers = {
@@ -11,6 +12,11 @@ const resolvers = {
 		},
 		allLoginActivity() {
 			return LoginActivity.find();
+		}
+	},
+	Mutation: {
+		registerUser(root, { first, last, email, password }) {
+			return registerUser(first, last, email, password);
 		}
 	},
 	User: {

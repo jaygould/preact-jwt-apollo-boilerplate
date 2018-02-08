@@ -13,6 +13,10 @@ type Query {
 	allLoginActivity: [LoginActivity]
 }
 
+type Mutation {
+	registerUser(first: String, last: String, email: String, password: String): User
+}
+
 # Custom types
 type User {
   id: String

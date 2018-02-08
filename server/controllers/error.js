@@ -1,15 +1,15 @@
-const errorHandler = (res, errorMessage, errorCode) => {
+const errorHandler = (errorMessage, errorCode) => {
 	if (errorCode === 'invalidToken' || errorCode === 'refreshExpired') {
-		return res.status(403).send({
+		return {
 			success: false,
 			message: errorMessage,
 			code: errorCode
-		});
+		};
 	} else {
-		return res.status(400).send({
+		return {
 			success: false,
 			message: errorMessage
-		});
+		};
 	}
 };
 

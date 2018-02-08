@@ -1,8 +1,11 @@
 import { route } from 'preact-router';
 import jwtDecode from 'jwt-decode';
 import moment from 'moment';
-import { saveTokensToStore, adminTokensReceived } from './auth.reducer';
-import { apiCheckToken, apiGetNewToken, apiGetAllUsers } from '../api/auth.api';
+import { saveTokensToStore /*, adminTokensReceived*/ } from './auth.reducer';
+import {
+	apiCheckToken,
+	apiGetNewToken /*, apiGetAllUsers*/
+} from '../api/auth.api';
 
 export const loadLocalUserAuth = () => dispatch => {
 	let refreshToken = localStorage.getItem('refreshToken');
@@ -54,25 +57,39 @@ export const logoutUser = reason => {
 	reason === 'refreshExpired' ? route('/?refreshExpired=true') : route('/');
 };
 
-export const getAllTokens = () => dispatch => {
-	apiGetAllUsers()
-		.then(tokens => {
-			let newFormat = tokens.message.map(token => {
-				if (token.refreshToken) {
-					let decoded = jwtDecode(token.refreshToken);
-					let expiresIn = moment.unix(decoded.exp).fromNow();
+// export const getAllTokens = () => dispatch => {
+// 	apiGetAllUsers()
+// 		.then(tokens => {
+// 			let newFormat = tokens.message.map(token => {
+// 				if (token.refreshToken) {
+// 					let decoded = jwtDecode(token.refreshToken);
+// 					let expiresIn = moment.unix(decoded.exp).fromNow();
+//
+// 					return {
+// 						refreshToken: token.refreshToken,
+// 						email: token.email,
+// 						expiresIn
+// 					};
+// 				}
+// 			});
+// 			dispatch(adminTokensReceived(newFormat));
+// 		})
+// 		.catch(err => console.log(err));
+// };
 
-					return {
-						refreshToken: token.refreshToken,
-						email: token.email,
-						expiresIn
-					};
-				}
-			});
-			dispatch(adminTokensReceived(newFormat));
-		})
-		.catch(err => console.log(err));
-};
+export const formatAdminTokens = tokens =>
+	tokens.map(token => {
+		if (token.refreshToken) {
+			let decoded = jwtDecode(token.refreshToken);
+			let expiresIn = moment.unix(decoded.exp).fromNow();
+
+			return {
+				refreshToken: token.refreshToken,
+				email: token.email,
+				expiresIn
+			};
+		}
+	});
 
 //this function is used to check if the token is about to expire in the next 30 seconds.
 //this was used to refrsh token while it's still valid but just before it expires, but this

@@ -9,7 +9,6 @@ import auth from './reducers/auth.reducer';
 
 import { ApolloClient, HttpLink, InMemoryCache } from 'apollo-client-preset';
 import { ApolloProvider } from 'react-apollo';
-import gql from 'graphql-tag';
 
 import './style';
 
