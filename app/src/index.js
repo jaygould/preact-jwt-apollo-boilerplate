@@ -7,7 +7,10 @@ import { jwt } from './middleware';
 import App from './components/app';
 import auth from './reducers/auth.reducer';
 
-import { ApolloClient, HttpLink, InMemoryCache } from 'apollo-client-preset';
+import { ApolloClient, InMemoryCache } from 'apollo-client-preset';
+import { setContext } from 'apollo-link-context';
+import { createHttpLink } from 'apollo-link-http';
+
 import { ApolloProvider } from 'react-apollo';
 
 import './style';
@@ -19,12 +22,21 @@ export const store = createStore(
 	applyMiddleware(jwt, thunk, logger)
 );
 
+const authLink = setContext((_, { headers }) => {
+	const token = localStorage.getItem('authToken');
+	return {
+		headers: {
+			...headers,
+			authorization: token ? `Bearer ${token}` : ''
+		}
+	};
+});
+const httpLink = createHttpLink({
+	uri: 'http://localhost:1138/graphql'
+});
+
 const client = new ApolloClient({
-	// By default, this client will send queries to the
-	//  `/graphql` endpoint on the same host
-	// Pass the configuration option { uri: YOUR_GRAPHQL_API_URL } to the `HttpLink` to connect
-	// to a different host
-	link: new HttpLink({ uri: 'http://localhost:1138/graphql' }),
+	link: authLink.concat(httpLink),
 	cache: new InMemoryCache()
 });
 

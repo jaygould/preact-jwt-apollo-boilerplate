@@ -2,7 +2,7 @@ const {
 	makeExecutableSchema
 	//addMockFunctionsToSchema
 } = require('graphql-tools');
-const resolvers = require('./gql/resolvers');
+const resolvers = require('./resolvers');
 //const mocks = require('./gql/mocks');
 
 const typeDefs = `
@@ -34,7 +34,6 @@ type LoginActivity {
   time: String
 }
 
-### Get currently active refresh tokens - perhaps do this without Apollo beforehand?
 `;
 
 const schema = makeExecutableSchema({ typeDefs, resolvers });

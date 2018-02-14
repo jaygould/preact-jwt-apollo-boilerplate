@@ -1,14 +1,16 @@
-const Users = require('../Users');
-const { registerUser } = require('./modelAuth');
-const LoginActivity = require('../LoginActivity');
+const Users = require('../mongo/Users');
+const LoginActivity = require('../mongo/LoginActivity');
+const { checkUser, registerUser } = require('./modelAuth');
 
 const resolvers = {
 	Query: {
 		user(root, args) {
 			return Users.findOne({ email: args.email });
 		},
-		allUsers() {
-			return Users.find();
+		allUsers(_, {}, context) {
+			return checkUser(context).then(authedUser => {
+				return Users.find();
+			});
 		},
 		allLoginActivity() {
 			return LoginActivity.find();

@@ -1,5 +1,5 @@
-const Users = require('../models/Users');
-const LoginActivity = require('../models/LoginActivity');
+const Users = require('../models/mongo/Users');
+const LoginActivity = require('../models/mongo/LoginActivity');
 const _ = require('lodash');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');

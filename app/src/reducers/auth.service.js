@@ -57,6 +57,8 @@ export const logoutUser = reason => {
 	reason === 'refreshExpired' ? route('/?refreshExpired=true') : route('/');
 };
 
+// kept in for reference in the admin/index.js page as this was
+// dispatched via Redux
 // export const getAllTokens = () => dispatch => {
 // 	apiGetAllUsers()
 // 		.then(tokens => {

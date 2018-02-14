@@ -1,5 +1,12 @@
 const auth = require('../../controllers/auth');
 
+let checkUser = context => {
+	if (!context.user) {
+		return Promise.reject('Unauthorized');
+	}
+	return Promise.resolve(context.user);
+};
+
 let registerUser = (first, last, email, password) => {
 	return auth
 		.registerUser(first, last, email, password)
@@ -29,5 +36,6 @@ let registerUser = (first, last, email, password) => {
 };
 
 module.exports = {
-	registerUser
+	registerUser,
+	checkUser
 };
