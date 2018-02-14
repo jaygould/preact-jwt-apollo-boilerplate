@@ -36,4 +36,9 @@ I've used a loose implementation of the "models" and "connectors" setup recommen
 * `server/controllers/auth.js` (which is the "connectors"). These handle running a query against a DB connection, or passing credentials to an API. You don't expect to change your connectors very often, and eventually they can be on npm for a variety of backends.
 * `server/models/gql/modelAuth.js` (which is the "models"). These are application-specific logic: which query to run, and which endpoint to call. These will change all the time as you add more functionality to the API.
 
+The server uses GraphQL to process the following requests to the server:
+
+* `Query` all users in order to return the currently active refresh tokens in the database, along with their expire times. This is implemented on the front end too. This query is protected using JWT validation middleware.
+* `Mutation` to handle user registrations. This **is not** implemented on the front-end.
+
 > At this point the client side implementation of GraphQL has not been utilised properly on the front end, as this is being developed for a future release.
