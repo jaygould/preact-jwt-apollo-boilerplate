@@ -1,9 +1,9 @@
 const { graphqlExpress } = require('apollo-server-express');
 const { graphiqlExpress } = require('apollo-server-express');
 const bodyParser = require('body-parser');
-const schema = require('../models/gql/gqlSchema');
 const ejwt = require('express-jwt');
 const config = require('../config/auth.js');
+const schema = require('../schema/gqlSchema');
 
 const connect = app => {
 	app.use(

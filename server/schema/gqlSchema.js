@@ -1,9 +1,5 @@
-const {
-	makeExecutableSchema
-	//addMockFunctionsToSchema
-} = require('graphql-tools');
-const resolvers = require('./resolvers');
-//const mocks = require('./gql/mocks');
+const { makeExecutableSchema } = require('graphql-tools');
+const resolvers = require('../resolvers');
 
 const typeDefs = `
 # Entry points
@@ -37,7 +33,5 @@ type LoginActivity {
 `;
 
 const schema = makeExecutableSchema({ typeDefs, resolvers });
-
-//addMockFunctionsToSchema({ schema, mocks });
 
 module.exports = schema;

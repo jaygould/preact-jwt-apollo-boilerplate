@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const Users = require('../models/mongo/Users');
 const jwt = require('jsonwebtoken');
-const auth = require('./auth');
 const config = require('../config/auth.js');
+const auth = require('./auth');
 const errors = require('./error');
+const Users = require('../connectors/Users');
 
 router.post('/signup', (req, res) => {
 	auth

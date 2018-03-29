@@ -1,9 +1,9 @@
-const Users = require('../models/mongo/Users');
-const LoginActivity = require('../models/mongo/LoginActivity');
 const _ = require('lodash');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const config = require('../config/auth.js');
+const Users = require('../connectors/Users');
+const LoginActivity = require('../connectors/LoginActivity');
 
 let registerUser = (first, last, email, password) => {
 	if (!first || !last || !email || !password) {

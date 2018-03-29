@@ -1,6 +1,6 @@
-const Users = require('../mongo/Users');
-const LoginActivity = require('../mongo/LoginActivity');
-const { checkUser, registerUser } = require('./modelAuth');
+const Users = require('../connectors/Users');
+const LoginActivity = require('../connectors/LoginActivity');
+const { checkUser, registerUser } = require('../controllers/modelAuth');
 
 const resolvers = {
 	Query: {

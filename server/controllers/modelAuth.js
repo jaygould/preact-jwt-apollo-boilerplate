@@ -1,4 +1,4 @@
-const auth = require('../../controllers/auth');
+const auth = require('./auth');
 
 let checkUser = context => {
 	if (!context.user) {
