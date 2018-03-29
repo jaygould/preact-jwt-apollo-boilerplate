@@ -39,6 +39,8 @@ class Register extends Component {
 			password: datav.password
 		});
 
+		// Instead of handling the then and catch here, it's handled at the bottom of the page
+		// which keeps logic out of the UI as much as possible.
 		// register(this.state)
 		// 	.then(response => {
 		// 		route('/');
@@ -111,7 +113,7 @@ const registerMutation = gql`
 		$emaila: String!
 		$password: String!
 	) {
-		registerUser( # the mutation name on server
+		registerUser(
 			first: $firstn
 			last: $lastn
 			email: $emaila
