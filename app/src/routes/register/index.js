@@ -1,17 +1,21 @@
 import { h, Component } from 'preact';
+// import { compose } from 'redux';
 import { route } from 'preact-router';
 import style from './style';
 import { register } from '../../api/auth.api';
+import mutationState from '../../components/mutateLoadingComponent';
 
-export default class Register extends Component {
+import gql from 'graphql-tag';
+import { graphql, compose } from 'react-apollo';
+
+class Register extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			email: null,
 			password: null,
 			firstName: null,
-			lastName: null,
-			registerError: null
+			lastName: null
 		};
 
 		this.handleChange = this.handleChange.bind(this);
@@ -27,18 +31,26 @@ export default class Register extends Component {
 	}
 
 	handleSubmit(e) {
-		register(this.state)
-			.then(response => {
-				route('/');
-			})
-			.catch(err => {
-				this.setState({
-					registerError: err.message
-				});
-			});
+		let datav = this.state;
+		this.props.registerUser({
+			firstn: datav.firstName,
+			lastn: datav.lastName,
+			emaila: datav.email,
+			password: datav.password
+		});
+
+		// register(this.state)
+		// 	.then(response => {
+		// 		route('/');
+		// 	})
+		// 	.catch(err => {
+		// 		this.setState({
+		// 			registerError: err.message
+		// 		});
+		// 	});
 		e.preventDefault();
 	}
-	render({}, { registerError }) {
+	render({ mutation }, {}) {
 		return (
 			<div class={style.home}>
 				<h1>Register</h1>
@@ -84,8 +96,52 @@ export default class Register extends Component {
 					</div>
 					<input type="submit" value="Submit" />
 				</form>
-				{registerError && <p class="errorNotice"> {registerError} </p>}
+				{mutation.loading && <div>loading</div>}
+
+				{mutation.error && <p class="errorNotice"> {mutation.error} </p>}
 			</div>
 		);
 	}
 }
+
+const registerMutation = gql`
+	mutation(
+		$firstn: String!
+		$lastn: String!
+		$emaila: String!
+		$password: String!
+	) {
+		registerUser( # the mutation name on server
+			first: $firstn
+			last: $lastn
+			email: $emaila
+			password: $password
+		) {
+			first
+			last
+			email
+		}
+	}
+`;
+
+const gqlWrapper = graphql(registerMutation, {
+	props: ({ mutate, ownProps }) => ({
+		registerUser: userDetails => {
+			const { mutation } = ownProps;
+			mutation.set({ loading: true });
+			mutate({
+				variables: { ...userDetails }
+				// need to update cache after registering so new user is added to cache?
+			})
+				.then(userData => {
+					route('/');
+					mutation.set({ loading: false });
+				})
+				.catch(err => {
+					mutation.set({ loading: false, error: err });
+				});
+		}
+	})
+});
+
+export default compose(mutationState(), gqlWrapper)(Register);

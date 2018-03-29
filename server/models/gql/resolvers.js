@@ -18,7 +18,14 @@ const resolvers = {
 	},
 	Mutation: {
 		registerUser(root, { first, last, email, password }) {
-			return registerUser(first, last, email, password);
+			return registerUser(first, last, email, password).then(res => {
+				let { first, last, email } = res.user;
+				return {
+					first,
+					last,
+					email
+				};
+			});
 		}
 	},
 	User: {
