@@ -2,9 +2,9 @@
   "name": "preact-jwt-apollo",
   "version": "1.0.0",
   "description": "",
-  "main": "server/index.js",
+  "main": "index.js",
   "scripts": {
-    "start": "nodemon server",
+    "start": "nodemon index.js",
     "build": "cd public && webpack -d --watch",
     "build-prod": "cd public && webpack -p",
     "heroku-postbuild": "cd app/ && npm install --only=dev && npm install && npm run build",
